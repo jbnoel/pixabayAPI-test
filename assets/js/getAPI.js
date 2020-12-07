@@ -26,7 +26,7 @@ form_submit.addEventListener('click', function (e) {
 
 function callAPI(search) {
     const key = '17092181-9b5fa7e4d8fe6a823a3fac2ed';
-    request.open('GET', 'https://pixabay.com/api/?key=' + key + '&q="' + search + '"');
+    request.open('GET', 'https://pixabay.com/api/?key=' + key + '&q="' + search + '"&per_page=50');
     request.send();
 }
 
