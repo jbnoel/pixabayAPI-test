@@ -5,10 +5,6 @@ Search list of pixabay picture
 love :)
 VSCode
 
-
-## Contributing
-Si vous souhaitez contribuer, lisez le fichier [CONTRIBUTING.md](https://example.org) pour savoir comment le faire.
-
 ## Authors
 * **JB Noel**
 
