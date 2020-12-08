@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
 body {
   min-height: 100%;
   background-color: #333;
   color: #FFF;
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:'Lato', Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
@@ -21,16 +23,40 @@ form {
   box-sizing: border-box;
 }
 
+h1{
+  text-align: center;
+}
+
 #user-entry{
   padding: 5px 10px;
   width: 50em;
   margin-right: 1em;
 }
 
-input[type="submit"] {
+input[type="submit"], #loadMore {
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 5px 10px;
+  transition-duration: 500ms;
+  appearance: none;
+  border: 1px solid #b4216F;
+  background-color: #b4216F;
+  color: #FFF;
+}
+
+input[type="submit"]:hover, #loadMore:hover {
+  outline: 1px solid #b4216F;
+  border: 1px solid #b4216F;
+  background-color: #de2b8a;
+}
+
+#loadMore{
+    width: fit-content;
+    margin: 3em auto;
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 #result{
@@ -42,10 +68,13 @@ input[type="submit"] {
 .card{
   flex: 0 0 auto;
   overflow: hidden;
-  padding: 0 2em;
+  padding: 0 .5em;
   box-sizing: border-box;
   margin-bottom: 1em;
-  max-width: 33.33%;
+  max-width: 25%;
+  width: fit-content;
+  height: fit-content;
+  position: relative;
 }
 
 .card a{
@@ -53,4 +82,25 @@ input[type="submit"] {
   font-size: 1em;
   color: #FFF;
   padding-left: 5px;
+}
+
+.card img {
+    width: 100%;
+    max-height: 100%;
+}
+
+.card a{
+    position: absolute;
+    bottom: 3px;
+    z-index: 1;
+    left: .5em;
+    right: .5em;
+    background-color: rgba(0, 0, 0, .70);
+    padding: .5em;
+    display: block;
+    transition-duration: 500ms;
+}
+
+.card a:hover{
+  background-color:#b4216F;
 }

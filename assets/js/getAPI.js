@@ -2,7 +2,8 @@ const request = new XMLHttpRequest();
 const form_submit = document.getElementById('form-submit');
 const input_search = document.getElementById('user-entry');
 const getResult = document.getElementById('result');
-const getStorage = sessionStorage.getItem('search');
+let getStorageSearch = sessionStorage.getItem('search');
+let page = 1;
 
 input_search.addEventListener('change', function () {
     let content_search = input_search.value;
@@ -21,55 +22,87 @@ form_submit.addEventListener('click', function (e) {
     getResult.innerHTML = "";
     const userInput = input_search.value;
     sessionStorage.setItem('search', userInput);
+    page = 1;
+    sessionStorage.setItem('page', page);
     callAPI(userInput);
 });
 
 function callAPI(search) {
     const key = '17092181-9b5fa7e4d8fe6a823a3fac2ed';
-    request.open('GET', 'https://pixabay.com/api/?key=' + key + '&q="' + search + '"&per_page=50');
+    request.open('GET', 'https://pixabay.com/api/?key=' + key + '&q="' + search + '"&page=' + page + '&image_type="photo"');
     request.send();
+    page++;
+    sessionStorage.setItem('page', page);
+}
+
+function createButton(){
+    callAPI(sessionStorage.getItem('search'));
 }
 
 // scan API's response
 request.onload = function () {
     var data = JSON.parse(this.responseText);
     const dataLength = data.hits.length;
-    if (this.readyState == XMLHttpRequest.DONE && data.total > 0) {
+    const alertMsg = document.createElement('p');
+    if (this.readyState == XMLHttpRequest.DONE && this.status >= 200 && data.hits.length > 0) {
         for (let i = 0; i < dataLength; i++) {
             createTag(data.hits[i].webformatURL, data.hits[i].tags, data.hits[i].pageURL);
         }
-    } else if (data.total === 0) {
-        getResult.innerText = data.total + " image";
+        document.getElementById('loadMore').style.display = 'block';
+
+    } else if (data.hits.length === 0) {
+        alertMsg.innerText = 'Toutes les images sont affichées';
+        getResult.appendChild(alertMsg);
+        document.getElementById('loadMore').style.display = 'none';
     } else {
-        getResult.innerText = "error";
+        console.log('error');
+        alertMsg.innerText = 'Un problème est arrivé';
+        getResult.appendChild(alertMsg);
+        document.getElementById('loadMore').style.display = 'none';
     }
 };
+
+// Infinity list
+
 
 // Create tag
 function createTag(img, descr, link) {
     const container = document.createElement('article');
-    container.setAttribute('class', 'card')
+    container.setAttribute('class', 'card');
+
+    const descr_src = document.createElement('span');
+    descr_src.innerHTML = descr;
 
     const img_src = document.createElement('img');
     img_src.src = img;
-
-    const descr_src = document.createElement('p');
-    descr_src.innerHTML = descr;
+    img_src.setAttribute('loading', 'eager');
+    img_src.setAttribute('alt', descr);
 
     const link_src = document.createElement('a');
     link_src.setAttribute('href', link);
-    link_src.innerText = 'lien';
+    link_src.setAttribute('target', '_blank');
 
     getResult.appendChild(container);
     container.appendChild(img_src);
-    container.appendChild(descr_src);
-    descr_src.appendChild(link_src);
+    container.appendChild(link_src);
+    link_src.appendChild(descr_src);
+    
 }
 
 // Set input value to previous search
 (async () => {
+    try {
+        page = sessionStorage.getItem('page');    
+    } catch (error) {
+        console.log('no page item')
+    }
+    
     if (getResult.innerHTML === "") {
-        callAPI(getStorage);
-        input_search.value = getStorage;
+        callAPI(getStorageSearch);
+        input_search.value = getStorageSearch;
+    }
+
+    else{
+        getResult.innerHTML = "";
     }
 })();
