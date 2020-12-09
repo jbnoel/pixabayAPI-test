@@ -89,7 +89,7 @@ function createTag(img, descr, link) {
     
 }
 
-// Set input value to previous search
+// get content or previous content on load
 (async () => {
     try {
         page = sessionStorage.getItem('page');    
