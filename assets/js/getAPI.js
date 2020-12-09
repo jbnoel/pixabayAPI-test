@@ -35,6 +35,8 @@ function callAPI(search) {
     sessionStorage.setItem('page', page);
 }
 
+
+// on button click
 function createButton(){
     callAPI(sessionStorage.getItem('search'));
 }
@@ -55,14 +57,11 @@ request.onload = function () {
         getResult.appendChild(alertMsg);
         document.getElementById('loadMore').style.display = 'none';
     } else {
-        console.log('error');
         alertMsg.innerText = 'Un problème est arrivé';
         getResult.appendChild(alertMsg);
         document.getElementById('loadMore').style.display = 'none';
     }
 };
-
-// Infinity list
 
 
 // Create tag
